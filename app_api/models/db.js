@@ -1,13 +1,10 @@
 const mongoose = require('mongoose');
 let dbURI = 'mongodb://localhost/loc8r';
-let useNewUrlParser = true;
 
 if (process.env.NODE_ENV === 'production') {
   dbURI = process.env.MONGODB_URI;
-  useNewUrlParser = false;
 }
-mongoose.connect(dbURI, { useNewUrlParser });
-
+mongoose.connect(dbURI, { useNewUrlParser: true });
 
 mongoose.connection.on('connected', () => {
   console.log(`Mongoose connected to ${dbURI}`);
