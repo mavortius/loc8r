@@ -1,29 +1,29 @@
 const express = require('express');
 const router = express.Router();
-const locationsCtrl = require('../controllers/locations');
-const reviewsCtrl = require('../controllers/reviews');
+const ctrlLocations = require('../controllers/locations');
+const ctrlReviews = require('../controllers/reviews');
 
 // locations
 router
   .route('/locations')
-  .get(locationsCtrl.locationsListByDistance)
-  .post(locationsCtrl.locationsCreate);
+  .get(ctrlLocations.locationsListByDistance)
+  .post(ctrlLocations.locationsCreate);
 
 router
   .route('/locations/:locationid')
-  .get(locationsCtrl.locationsReadOne)
-  .put(locationsCtrl.locationsUpdateOne)
-  .delete(locationsCtrl.locationsDeleteOne);
+  .get(ctrlLocations.locationsReadOne)
+  .put(ctrlLocations.locationsUpdateOne)
+  .delete(ctrlLocations.locationsDeleteOne);
 
 // reviews
 router
   .route('/locations/:locationid/reviews')
-  .post(reviewsCtrl.reviewsCreate);
+  .post(ctrlReviews.reviewsCreate);
 
 router
   .route('/locations/:locationid/reviews/:reviewid')
-  .get(reviewsCtrl.reviewsReadOne)
-  .put(reviewsCtrl.reviewsUpdateOne)
-  .delete(reviewsCtrl.reviewsDeleteOne);
+  .get(ctrlReviews.reviewsReadOne)
+  .put(ctrlReviews.reviewsUpdateOne)
+  .delete(ctrlReviews.reviewsDeleteOne);
 
 module.exports = router;

@@ -1,21 +1,6 @@
 const mongoose = require('mongoose');
 
-const reviewSchema = new mongoose.Schema({
-  author: String,
-  rating: {
-    type: Number,
-    required: true,
-    min: 0,
-    max: 5
-  },
-  reviewText: String,
-  createdOn: {
-    type: Date,
-    'default': Date.now()
-  }
-});
-
-const openingTimeSchema = new mongoose.Schema({
+const openingTimesSchema = new mongoose.Schema({
   days: {
     type: String,
     required: true
@@ -25,6 +10,27 @@ const openingTimeSchema = new mongoose.Schema({
   closed: {
     type: Boolean,
     required: true
+  }
+});
+
+const reviewSchema = new mongoose.Schema({
+  author: {
+    type: String,
+    required: true
+  },
+  rating: {
+    type: Number,
+    required: true,
+    min: 0,
+    max: 5
+  },
+  reviewText: {
+    type: String,
+    required: true
+  },
+  createdOn: {
+    type: Date,
+    'default': Date.now
   }
 });
 
@@ -40,15 +46,24 @@ const locationSchema = new mongoose.Schema({
     min: 0,
     max: 5
   },
-  facilities: [ String ],
+  facilities: [String],
   coords: {
     type: { type: String },
-    coordinates: [ Number ]
+    coordinates: [Number],
   },
-  openingTimes: [ openingTimeSchema ],
-  reviews: [ reviewSchema ]
+  openingTimes: [openingTimesSchema],
+  reviews: [reviewSchema]
+});
+locationSchema.index({ coords: '2dsphere' });
+
+const Location = mongoose.model('Location', locationSchema);
+
+Location.on('index', (error) => {
+  if (error) {
+    console.log(error.message);
+  } else {
+    console.log('Indexes are done building!');
+  }
 });
 
-locationSchema.index({ coods: '2dsphere' });
 
-mongoose.model('Location', locationSchema);
