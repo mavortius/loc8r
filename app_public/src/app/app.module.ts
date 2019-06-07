@@ -12,6 +12,10 @@ import { PageHeaderComponent } from './page-header/page-header.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { HtmlLineBreaksPipe } from './html-line-breaks.pipe';
 import { RatingStarsComponent } from './rating-stars/rating-stars.component';
+import { LocationDetailsComponent } from './location-details/location-details.component';
+import { DetailsPageComponent } from './details-page/details-page.component';
+import { MostRecentFirstPipe } from './most-recent-first.pipe';
+import { FormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -23,10 +27,14 @@ import { RatingStarsComponent } from './rating-stars/rating-stars.component';
     PageHeaderComponent,
     SidebarComponent,
     HtmlLineBreaksPipe,
-    RatingStarsComponent
+    RatingStarsComponent,
+    LocationDetailsComponent,
+    DetailsPageComponent,
+    MostRecentFirstPipe
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     HttpClientModule,
     RouterModule.forRoot([
       {
@@ -36,6 +44,10 @@ import { RatingStarsComponent } from './rating-stars/rating-stars.component';
       {
         path: 'about',
         component: AboutComponent
+      },
+      {
+        path: 'location/:locationId',
+        component: DetailsPageComponent
       }
     ])
   ],
