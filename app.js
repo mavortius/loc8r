@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const createError = require('http-errors');
@@ -19,12 +20,16 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'app_public', 'build')));
 app.use(passport.initialize());
 
-app.use('/api', (req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  res.header('Access-Control-Allow-Methods', '*');
-  next();
-});
+const corsOptions = {
+  origin: true,
+  optionsSuccessStatus: 200,
+  methods: 'GET, PUT, POST, DELETE, OPTIONS',
+  allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+  credentials: true,
+  preflightContinue: true
+};
+
+app.use(cors(corsOptions));
 
 app.use('/api', apiRouter);
 app.get('*', (req, res, next) => {
