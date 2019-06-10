@@ -1,7 +1,10 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
+import { Inject, Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Location, Review } from "./location";
 import { environment } from "../environments/environment";
+import { User } from "./user";
+import { AuthResponse } from "./auth-response";
+import { BROWSER_STORAGE } from "./storage";
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +12,8 @@ import { environment } from "../environments/environment";
 export class Loc8rDataService {
   private apiBaseUrl = environment.apiBaseUrl;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              @Inject(BROWSER_STORAGE) private storage: Storage) {
   }
 
   public getLocationById(locationId: string): Promise<Location> {
@@ -35,11 +39,32 @@ export class Loc8rDataService {
 
   public addReviewByLocationId(locationId: string, formData: Review): Promise<Review> {
     const url: string = `${this.apiBaseUrl}/locations/${locationId}/reviews`;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${this.storage.getItem('loc8r-token')}`
+      })
+    };
 
     return this.http
-      .post(url, formData)
+      .post(url, formData, httpOptions)
       .toPromise()
       .then(response => response as any)
+      .catch(this.handleError);
+  }
+
+  public login(user: User): Promise<AuthResponse> {
+    return this.makeAuthApiCall('login', user);
+  }
+
+  public register(user: User): Promise<AuthResponse> {
+    return this.makeAuthApiCall('register', user);
+  }
+
+  private makeAuthApiCall(urlPath: string, user: User): Promise<AuthResponse> {
+    const url: string = `${this.apiBaseUrl}/${urlPath}`;
+    return this.http.post(url, user)
+      .toPromise()
+      .then(response => response as AuthResponse)
       .catch(this.handleError);
   }
 
@@ -47,4 +72,5 @@ export class Loc8rDataService {
     console.error('Something has gone wrong', error);
     return Promise.reject(error.message || error);
   }
+
 }

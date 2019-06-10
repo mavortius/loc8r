@@ -7,13 +7,25 @@
 
     <div id="navbarMain" class="navbar-collapse collapse">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <a routerLink="about" routerLinkActive="active" class="nav-link">About</a>
+        <li class="nav-item" routerLinkActive="active">
+          <a routerLink="about" class="nav-link">About</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav justify-content-end">
+        <li class="nav-item" routerLinkActive="active" *ngIf="!isLoggedIn()">
+          <a routerLink="login" class="nav-link">Sign in</a>
+        </li>
+        <li class="nav-item dropdown" routerLinkActive="active" *ngIf="isLoggedIn()">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown">{{ getUsername() }}</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" (click)="doLogout()">Logout</a>
+          </div>
         </li>
       </ul>
     </div>
   </div>
 </nav>
+
 <div class="container content">
   <router-outlet></router-outlet>
   <footer>

@@ -16,6 +16,8 @@ import { LocationDetailsComponent } from './location-details/location-details.co
 import { DetailsPageComponent } from './details-page/details-page.component';
 import { MostRecentFirstPipe } from './most-recent-first.pipe';
 import { FormsModule } from "@angular/forms";
+import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { FormsModule } from "@angular/forms";
     RatingStarsComponent,
     LocationDetailsComponent,
     DetailsPageComponent,
-    MostRecentFirstPipe
+    MostRecentFirstPipe,
+    RegisterComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -48,6 +52,14 @@ import { FormsModule } from "@angular/forms";
       {
         path: 'location/:locationId',
         component: DetailsPageComponent
+      },
+      {
+        path: 'register',
+        component: RegisterComponent
+      },
+      {
+        path: 'login',
+        component: LoginComponent
       }
     ])
   ],
