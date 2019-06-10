@@ -21,7 +21,7 @@ app.use(express.static(path.join(__dirname, 'app_public', 'build')));
 app.use(passport.initialize());
 
 const corsOptions = {
-  origin: true,
+  origin: ['https://loc8r-mavortius.herokuapp.com', 'http://localhost:4200'],
   optionsSuccessStatus: 200,
   methods: 'GET, PUT, POST, DELETE, OPTIONS',
   allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
